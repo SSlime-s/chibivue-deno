@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "play": "cd examples/playground && deno task dev"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
