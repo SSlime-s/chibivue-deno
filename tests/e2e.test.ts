@@ -25,18 +25,21 @@ function createHost(): HTMLElement {
   const create10_020App = () => {
     const onClick = spy();
     const app = createApp({
-      render: () => {
-        return h("div", { id: "my-app" }, [
-          h("p", { style: "color: red; font-weight: bold;" }, ["Hello world."]),
-          h(
-            "button",
-            {
-              id: "btn",
-              onClick,
-            },
-            ["click me!"]
-          ),
-        ]);
+      setup: () => {
+        return () =>
+          h("div", { id: "my-app" }, [
+            h("p", { style: "color: red; font-weight: bold;" }, [
+              "Hello world.",
+            ]),
+            h(
+              "button",
+              {
+                id: "btn",
+                onClick,
+              },
+              ["click me!"]
+            ),
+          ]);
       },
     });
 

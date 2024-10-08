@@ -16,11 +16,18 @@ export function createAppAPI<HostElement>(
   return (rootComponent) => {
     const app: App = {
       mount(rootContainer) {
-        if (rootComponent.render === undefined) {
+        if (rootComponent.setup === undefined) {
           return;
         }
-        const vnode = rootComponent.render();
-        render(vnode, rootContainer);
+
+        const componentRender = rootComponent.setup();
+
+        const updateComponent = () => {
+          const vnode = componentRender();
+          render(vnode, rootContainer);
+        };
+
+        updateComponent();
       },
     };
 
