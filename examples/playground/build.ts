@@ -11,7 +11,7 @@ const result = await esbuild.build({
     }),
   ],
   // 対象ファイル名
-  entryPoints: [Deno.realPathSync("main.ts")],
+  entryPoints: [Deno.realPathSync("src/main.ts")],
   outfile: Deno.realPathSync("dist/main.js"),
   bundle: true,
   format: "esm",
