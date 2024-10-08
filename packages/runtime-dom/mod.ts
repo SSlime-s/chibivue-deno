@@ -4,6 +4,7 @@ import {
 } from "../runtime-core/apiCreateApp.ts";
 import { createRenderer } from "../runtime-core/renderer.ts";
 import { nodeOps } from "./nodeOps.ts";
+export { h } from "../runtime-core/h.ts";
 
 const { render } = createRenderer(nodeOps);
 const _createApp = createAppAPI(render);

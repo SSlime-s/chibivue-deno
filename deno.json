@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "play": "cd examples/playground && deno task dev"
+    "play:build": "cd examples/playground && deno task build",
+    "play:serve": "cd examples/playground && deno task serve"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"

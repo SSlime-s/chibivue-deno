@@ -19,8 +19,8 @@ export function createAppAPI<HostElement>(
         if (rootComponent.render === undefined) {
           return;
         }
-        const message = rootComponent.render();
-        render(message, rootContainer);
+        const vnode = rootComponent.render();
+        render(vnode, rootContainer);
       },
     };
 
