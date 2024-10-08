@@ -26,7 +26,7 @@ export function patchEvent(
     /** vei = vue event invokers */
     _vei?: Record<string, Invoker | undefined>;
   },
-  rawName: string,
+  rawName: `on${string}`,
   value: EventValue | null
 ) {
   const invokers = element._vei ?? (element._vei = {});
@@ -50,7 +50,7 @@ export function patchEvent(
   }
 }
 
-function parseName(rawName: string): string {
+function parseName(rawName: `on${string}`): string {
   return rawName.slice(2).toLocaleLowerCase();
 }
 
