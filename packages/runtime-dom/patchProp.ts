@@ -1,4 +1,5 @@
 import { RendererOptions } from "../runtime-core/renderer.ts";
+import { patchAttr } from "./modules/attrs.ts";
 import { patchEvent } from "./modules/events.ts";
 
 type DOMRendererOptions = RendererOptions<Node, Element>;
@@ -13,8 +14,8 @@ export const patchProp: DOMRendererOptions["patchProp"] = (
 ) => {
   if (isOn(key)) {
     // deno-lint-ignore ban-types
-    patchEvent(element, key, value as Function);
+    patchEvent(element, key, value as Function | null);
   } else {
-    // TODO
+    patchAttr(element, key, value as string | null);
   }
 };
