@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch -A build.ts & deno run -A npm:vite",
+    "serve": "deno run -A npm:vite",
     "build": "deno run -A build.ts"
   },
   "imports": {
