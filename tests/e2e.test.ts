@@ -6,9 +6,11 @@ import globalJsdom from "global-jsdom";
 
 // HACK: global-jsdom を使うのは良くないが、コードの改修がかなり必要なため一旦諦める
 //       ref: https://github.com/jsdom/jsdom/wiki/Don't-stuff-jsdom-globals-onto-the-Node-global
-function setupDocument(): { close: () => void } {
+function setupDocument(): { [Symbol.dispose]: () => void } {
   const close = globalJsdom();
-  return { close };
+  return {
+    [Symbol.dispose]: close,
+  };
 }
 
 function createHost(): HTMLElement {
@@ -49,26 +51,22 @@ function createHost(): HTMLElement {
   };
 
   Deno.test("10_minimum_example/020_simple_h_function/snapshot", async (t) => {
-    const { close } = setupDocument();
+    using _ = setupDocument();
     const host = createHost();
     // deno-lint-ignore no-empty-pattern
     const {} = create10_020App();
 
     await assertSnapshot(t, host.innerHTML);
-
-    close();
   });
 
   Deno.test("10_minimum_example/020_simple_h_function/click_button", () => {
-    const { close } = setupDocument();
-    const _ = createHost();
+    const _ = setupDocument();
+    createHost();
     const { onClick } = create10_020App();
 
     const button = document.querySelector("#btn") as HTMLButtonElement;
     button?.click();
 
     assertSpyCalls(onClick, 1);
-
-    close();
   });
 }
