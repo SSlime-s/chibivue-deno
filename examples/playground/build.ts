@@ -11,14 +11,14 @@ const result = await esbuild.build({
     }),
   ],
   // 対象ファイル名
-  entryPoints: [Deno.realPathSync("src/main.ts")],
-  outfile: Deno.realPathSync("dist/main.js"),
+  entryPoints: [new URL("src/main.ts", import.meta.url).pathname],
+  outfile: new URL("dist/main.js", import.meta.url).pathname,
   bundle: true,
   format: "esm",
 });
 
 if (result.outputFiles) {
-  for (const { path, contents, text } of result.outputFiles) {
+  for (const { path, contents } of result.outputFiles) {
     await Deno.mkdir(posix.dirname(path), { recursive: true });
     await Deno.writeFile(path, contents, {
       create: true,
