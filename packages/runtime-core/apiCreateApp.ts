@@ -1,4 +1,3 @@
-import { ReactiveEffect } from "../reactivity/effect.ts";
 import { Component } from "./component.ts";
 import { RootRenderFunction } from "./renderer.ts";
 
@@ -16,20 +15,8 @@ export function createAppAPI<HostElement>(
 ): CreateAppFunction<HostElement> {
   return (rootComponent) => {
     const app: App = {
-      mount(rootContainer) {
-        if (rootComponent.setup === undefined) {
-          return;
-        }
-
-        const componentRender = rootComponent.setup();
-
-        const updateComponent = () => {
-          const vnode = componentRender();
-          render(vnode, rootContainer);
-        };
-
-        const effect = new ReactiveEffect(updateComponent);
-        effect.run();
+      mount(rootContainer: HostElement) {
+        render(rootComponent, rootContainer);
       },
     };
 
