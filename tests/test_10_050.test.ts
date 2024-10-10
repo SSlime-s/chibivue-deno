@@ -151,7 +151,7 @@ Deno.test("10_minimum_example/050_component_system2/ケバブケースはコン�
   using resource = setup();
   const { host } = resource;
 
-  mountApp2();
+  mountApp3();
 
   await t.step("最初", async () => {
     await assertSnapshot(t, host.innerHTML);
