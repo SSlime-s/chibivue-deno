@@ -1,7 +1,5 @@
 export const snapshot = {};
 
-snapshot[`10_minimum_example/020_simple_h_function/snapshot 1`] = `'<div id="my-app"><p style="color: red; font-weight: bold;">Hello world.</p><button id="btn">click me!</button></div>'`;
-
 snapshot[`10_minimum_example/030_reactivity 1`] = `'<div id="my-app"><p>count: 0</p><button id="btn">+1</button></div>'`;
 
 snapshot[`10_minimum_example/030_reactivity 2`] = `'<div id="my-app"><p>count: 1</p><button id="btn">+1</button></div>'`;
