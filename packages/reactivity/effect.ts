@@ -1,4 +1,4 @@
-import { Dep, createDep } from "./dep.ts";
+import { createDep, Dep } from "./dep.ts";
 
 type KeyToDepMap = Map<unknown, Dep>;
 const targetMap = new WeakMap<WeakKey, KeyToDepMap>();
@@ -20,12 +20,12 @@ export class ReactiveEffect<T = unknown> {
 export function track(target: object, key: unknown) {
   let depsMap = targetMap.get(target);
   if (depsMap === undefined) {
-    targetMap.set(target, (depsMap = new Map()));
+    targetMap.set(target, depsMap = new Map());
   }
 
   let dep = depsMap.get(key);
   if (dep === undefined) {
-    depsMap.set(key, (dep = createDep()));
+    depsMap.set(key, dep = createDep());
   }
 
   if (activeEffect !== undefined) {

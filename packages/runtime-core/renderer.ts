@@ -2,8 +2,8 @@ import { unreachable } from "../shared/unreachable.ts";
 import { ReactiveEffect } from "../reactivity/effect.ts";
 import {
   Component,
-  createComponentInstance,
   type ComponentInternalInstance,
+  createComponentInstance,
   type InternalRenderFunction,
 } from "./component.ts";
 import { initProps, updateProps } from "./componentProps.ts";
@@ -12,7 +12,7 @@ import { Text } from "./vnode.ts";
 
 export interface RendererOptions<
   HostNode = RendererNode,
-  HostElement = RendererElement
+  HostElement = RendererElement,
 > {
   patchProp(element: HostElement, key: string, value: unknown): void;
   createElement(type: string): HostNode;
@@ -31,7 +31,7 @@ export interface RendererElement extends RendererNode {}
 
 export type RootRenderFunction<HostElement = RendererElement> = (
   rootComponent: Component,
-  container: HostElement
+  container: HostElement,
 ) => void;
 
 export function createRenderer({
@@ -57,7 +57,7 @@ export function createRenderer({
   const processElement = (
     n1: VNode | null,
     n2: VNode,
-    container: RendererElement
+    container: RendererElement,
   ) => {
     if (n1 === null) {
       mountElement(n2, container);
@@ -68,7 +68,7 @@ export function createRenderer({
 
   const mountElement = (vnode: VNode, container: RendererElement) => {
     const element: RendererElement = (vnode.element = hostCreateElement(
-      vnode.type as string
+      vnode.type as string,
     ));
 
     mountChildren(vnode.children as VNode[], element);
@@ -114,12 +114,12 @@ export function createRenderer({
   const processText = (
     n1: VNode | null,
     n2: VNode,
-    container: RendererElement
+    container: RendererElement,
   ) => {
     if (n1 === null) {
       hostInsert(
-        (n2.element = hostCreateText(n2.children as string)),
-        container
+        n2.element = hostCreateText(n2.children as string),
+        container,
       );
     } else {
       const element = (n2.element = n1.element!);
@@ -133,7 +133,7 @@ export function createRenderer({
   const processComponent = (
     n1: VNode | null,
     n2: VNode,
-    container: RendererElement
+    container: RendererElement,
   ) => {
     if (n1 === null) {
       mountComponent(n2, container);
@@ -143,8 +143,8 @@ export function createRenderer({
   };
 
   const mountComponent = (initialVNode: VNode, container: RendererElement) => {
-    const instance: ComponentInternalInstance = (initialVNode.component =
-      createComponentInstance(initialVNode));
+    const instance: ComponentInternalInstance =
+      (initialVNode.component = createComponentInstance(initialVNode));
 
     initProps(instance, instance.vnode.props);
 

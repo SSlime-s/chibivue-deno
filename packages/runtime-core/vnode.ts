@@ -30,7 +30,7 @@ export type VNodeChildAtom = VNode | string;
 export function createVNode(
   type: VNodeTypes,
   props: VNodeProps | null,
-  children: VNodeNormalizedChildren
+  children: VNodeNormalizedChildren,
 ): VNode {
   const vnode: VNode = {
     type,

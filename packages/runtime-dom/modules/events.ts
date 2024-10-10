@@ -8,7 +8,7 @@ type EventValue = Function;
 export function addEventListener(
   element: Element,
   event: string,
-  handler: EventListener
+  handler: EventListener,
 ) {
   element.addEventListener(event, handler);
 }
@@ -16,7 +16,7 @@ export function addEventListener(
 export function removeEventListener(
   element: Element,
   event: string,
-  handler: EventListener
+  handler: EventListener,
 ) {
   element.removeEventListener(event, handler);
 }
@@ -27,7 +27,7 @@ export function patchEvent(
     _vei?: Record<string, Invoker | undefined>;
   },
   rawName: `on${string}`,
-  value: EventValue | null
+  value: EventValue | null,
 ) {
   const invokers = element._vei ?? (element._vei = {});
   const existingInvoker = invokers[rawName];

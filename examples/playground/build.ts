@@ -1,3 +1,4 @@
+// @deno-types="https://deno.land/x/esbuild@v0.19.11/wasm.d.ts"
 import * as esbuild from "https://deno.land/x/esbuild@v0.19.11/wasm.js";
 
 import { denoPlugins } from "jsr:@luca/esbuild-deno-loader@0.10.3";

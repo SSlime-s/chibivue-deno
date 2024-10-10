@@ -7,11 +7,11 @@ export interface App<HostElement = any> {
 }
 
 export type CreateAppFunction<HostElement> = (
-  rootComponent: Component
+  rootComponent: Component,
 ) => App<HostElement>;
 
 export function createAppAPI<HostElement>(
-  render: RootRenderFunction<HostElement>
+  render: RootRenderFunction<HostElement>,
 ): CreateAppFunction<HostElement> {
   return (rootComponent) => {
     const app: App = {

@@ -6,5 +6,6 @@
   "imports": {
     "chibivue": "../../packages/mod.ts",
     "vite": "npm:vite@^5.4.8"
-  }
+  },
+  "exclude": ["dist/"]
 }
