@@ -3,7 +3,7 @@
     "play:build": "cd examples/playground && deno task build",
     "play:serve": "cd examples/playground && deno task serve",
     "test:e2e": "cd tests && deno test -A --shuffle",
-    "test:e2e:update": "deno task test:e2e -- --update"
+    "test:e2e:update": "cd tests && deno test -A -- --update"
   },
   "imports": {},
   "compilerOptions": {
