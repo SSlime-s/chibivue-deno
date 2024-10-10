@@ -1,4 +1,4 @@
-import { unreachable } from "../../lib/unreachable.ts";
+import { unreachable } from "../shared/unreachable.ts";
 import { ReactiveEffect } from "../reactivity/effect.ts";
 import {
   Component,
