@@ -1,7 +1,7 @@
 import { createVNode, VNode, VNodeProps } from "./vnode.ts";
 
 export function h(
-  type: string,
+  type: string | object,
   props: VNodeProps,
   children: readonly (VNode | string)[]
 ): VNode {

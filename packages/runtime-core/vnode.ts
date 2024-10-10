@@ -1,14 +1,16 @@
+import type { ComponentInternalInstance } from "./component.ts";
 import { RendererNode } from "./renderer.ts";
 
 export const Text = Symbol("Text");
 
-export type VNodeTypes = string | typeof Text;
+export type VNodeTypes = string | typeof Text | object;
 
 export interface VNode<HostNode = RendererNode> {
   type: VNodeTypes;
   props: VNodeProps | null;
   children: VNodeNormalizedChildren;
   element: HostNode | null;
+  component: ComponentInternalInstance | null;
 }
 
 export interface VNodeProps {
@@ -35,6 +37,7 @@ export function createVNode(
     props,
     children,
     element: null,
+    component: null,
   };
 
   return vnode;

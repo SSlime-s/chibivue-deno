@@ -1,6 +1,12 @@
+import { unreachable } from "../../lib/unreachable.ts";
 import { ReactiveEffect } from "../reactivity/effect.ts";
-import { Component } from "./component.ts";
-import { normalizeVNode, VNode } from "./vnode.ts";
+import {
+  Component,
+  createComponentInstance,
+  type ComponentInternalInstance,
+  type InternalRenderFunction,
+} from "./component.ts";
+import { createVNode, normalizeVNode, VNode } from "./vnode.ts";
 import { Text } from "./vnode.ts";
 
 export interface RendererOptions<
@@ -12,6 +18,7 @@ export interface RendererOptions<
   createText(text: string): HostNode;
   setElementText(node: HostNode, text: string): void;
   insert(child: HostNode, parent: HostNode, anchor?: HostNode | null): void;
+  parentNode(node: HostNode): HostNode | null;
 }
 
 export interface RendererNode {
@@ -32,12 +39,17 @@ export function createRenderer({
   createText: hostCreateText,
   setElementText: hostSetText,
   insert: hostInsert,
+  parentNode: hostParentNode,
 }: RendererOptions) {
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
     if (n2.type === Text) {
       processText(n1, n2, container);
-    } else {
+    } else if (typeof n2.type === "string") {
       processElement(n1, n2, container);
+    } else if (typeof n2.type === "object") {
+      processComponent(n1, n2, container);
+    } else {
+      unreachable(n2.type);
     }
   };
 
@@ -117,22 +129,75 @@ export function createRenderer({
     }
   };
 
-  const render: RootRenderFunction = (rootComponent, container) => {
-    if (rootComponent.setup === undefined) {
-      return;
+  const processComponent = (
+    n1: VNode | null,
+    n2: VNode,
+    container: RendererElement
+  ) => {
+    if (n1 === null) {
+      mountComponent(n2, container);
+    } else {
+      updateComponent(n1, n2);
     }
-    const componentRender = rootComponent.setup();
+  };
 
-    let n1: VNode | null = null;
+  const mountComponent = (initialVNode: VNode, container: RendererElement) => {
+    const instance: ComponentInternalInstance = (initialVNode.component =
+      createComponentInstance(initialVNode));
 
-    const updateComponent = () => {
-      const n2 = componentRender();
-      patch(n1, n2, container);
-      n1 = n2;
+    const component = initialVNode.type as Component;
+    if (component.setup !== undefined) {
+      instance.render = component.setup() as InternalRenderFunction;
+    }
+
+    setupRenderEffect(instance, initialVNode, container);
+  };
+
+  const setupRenderEffect = (
+    instance: ComponentInternalInstance,
+    initialVNode: VNode,
+    container: RendererElement
+  ) => {
+    const componentUpdateFn = () => {
+      if (!instance.isMounted) {
+        const subTree = (instance.subTree = normalizeVNode(instance.render()));
+        patch(null, subTree, container);
+        initialVNode.element = subTree.element;
+        instance.isMounted = true;
+        return;
+      }
+      let { next } = instance;
+      if (next === null) {
+        next = instance.vnode;
+      } else {
+        next.element = instance.vnode.element;
+        next.component = instance;
+        instance.vnode = next;
+        instance.next = null;
+      }
+
+      const prevTree = instance.subTree;
+      const nextTree = normalizeVNode(instance.render());
+      instance.subTree = nextTree;
+
+      patch(prevTree, nextTree, hostParentNode(prevTree.element!)!);
+      next.element = nextTree.element;
     };
 
-    const effect = new ReactiveEffect(updateComponent);
-    effect.run();
+    const effect = (instance.effect = new ReactiveEffect(componentUpdateFn));
+    const update = (instance.update = () => effect.run());
+    update();
+  };
+
+  const updateComponent = (n1: VNode, n2: VNode) => {
+    const instance = (n2.component = n1.component)!;
+    instance.next = n2;
+    instance.update();
+  };
+
+  const render: RootRenderFunction = (rootComponent, container) => {
+    const vnode = createVNode(rootComponent, {}, []);
+    patch(null, vnode, container);
   };
 
   return {

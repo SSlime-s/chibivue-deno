@@ -1,0 +1,9 @@
+export const snapshot = {};
+
+snapshot[`10_minimum_example/050_component_system 1`] = `'<div id="my-app"><div><p>count: 0</p><button class="btn">+1</button></div><div><p>count: 0</p><button class="btn">+1</button></div><div><p>count: 0</p><button class="btn">+1</button></div></div>'`;
+
+snapshot[`10_minimum_example/050_component_system 2`] = `'<div id="my-app"><div><p>count: 1</p><button class="btn">+1</button></div><div><p>count: 0</p><button class="btn">+1</button></div><div><p>count: 0</p><button class="btn">+1</button></div></div>'`;
+
+snapshot[`10_minimum_example/050_component_system 3`] = `'<div id="my-app"><div><p>count: 1</p><button class="btn">+1</button></div><div><p>count: 1</p><button class="btn">+1</button></div><div><p>count: 0</p><button class="btn">+1</button></div></div>'`;
+
+snapshot[`10_minimum_example/050_component_system 4`] = `'<div id="my-app"><div><p>count: 4</p><button class="btn">+1</button></div><div><p>count: 1</p><button class="btn">+1</button></div><div><p>count: 0</p><button class="btn">+1</button></div></div>'`;
