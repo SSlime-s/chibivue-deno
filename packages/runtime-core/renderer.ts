@@ -6,6 +6,7 @@ import {
   type ComponentInternalInstance,
   type InternalRenderFunction,
 } from "./component.ts";
+import { initProps, updateProps } from "./componentProps.ts";
 import { createVNode, normalizeVNode, VNode } from "./vnode.ts";
 import { Text } from "./vnode.ts";
 
@@ -145,9 +146,13 @@ export function createRenderer({
     const instance: ComponentInternalInstance = (initialVNode.component =
       createComponentInstance(initialVNode));
 
+    initProps(instance, instance.vnode.props);
+
     const component = initialVNode.type as Component;
     if (component.setup !== undefined) {
-      instance.render = component.setup() as InternalRenderFunction;
+      instance.render = component.setup(
+        instance.props
+      ) as InternalRenderFunction;
     }
 
     setupRenderEffect(instance, initialVNode, container);
@@ -174,6 +179,7 @@ export function createRenderer({
         next.component = instance;
         instance.vnode = next;
         instance.next = null;
+        updateProps(instance, next.props);
       }
 
       const prevTree = instance.subTree;

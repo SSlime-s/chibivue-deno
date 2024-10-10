@@ -65,3 +65,51 @@ Deno.test("10_minimum_example/050_component_system", async (t) => {
     await assertSnapshot(t, host.innerHTML);
   });
 });
+
+function mountApp2() {
+  const MyComponent = {
+    props: {
+      count: {
+        type: Number,
+      },
+    },
+    setup(props: { count: number }) {
+      return () => h("p", {}, [`count: ${props.count}`]);
+    }
+  };
+
+  const app = createApp({
+    setup: () => {
+      const state = reactive({ count: 0 });
+      const increment = () => {
+        state.count++;
+      };
+
+      return () =>
+        h("div", { id: "my-app" }, [
+          h(MyComponent, { count: state.count }, []),
+          h("button", { class: "btn", onClick: increment }, ["+1"]),
+        ]);
+    },
+  });
+
+  app.mount(`#${HOST_ID}`);
+}
+
+Deno.test("10_minimum_example/050_component_system2", async (t) => {
+  using resource = setup();
+  const { host } = resource;
+
+  mountApp2();
+
+  await t.step("最初", async () => {
+    await assertSnapshot(t, host.innerHTML);
+  });
+
+  await t.step("state を変えたときに props が変わって再描画される", async () => {
+    const button = document.querySelector<HTMLButtonElement>(".btn");
+    button?.click();
+
+    await assertSnapshot(t, host.innerHTML);
+  });
+})
