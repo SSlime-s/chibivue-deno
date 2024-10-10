@@ -1,5 +1,5 @@
+import { createApp, h, reactive } from "chibivue";
 import { assertSnapshot } from "@std/testing/snapshot";
-import { createApp, h, reactive } from "../packages/mod.ts";
 import { HOST_ID, setup } from "./setup.ts";
 
 function mountApp() {

@@ -1,6 +1,6 @@
+import { createApp, h } from "chibivue";
 import { assertSpyCalls, spy } from "@std/testing/mock";
 import { HOST_ID, setup } from "./setup.ts";
-import { createApp, h } from "../packages/mod.ts";
 import { assertSnapshot } from "@std/testing/snapshot";
 
 function mountApp() {
