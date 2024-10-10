@@ -5,12 +5,13 @@ import { patchEvent } from "./modules/events.ts";
 type DOMRendererOptions = RendererOptions<Node, Element>;
 
 const onRE = /^on[^a-z]/;
-export const isOn = (key: string): key is `on${string}` => onRE.test(key);
+export const isOn = (key: string): key is `on${Capitalize<string>}` =>
+  onRE.test(key);
 
 export const patchProp: DOMRendererOptions["patchProp"] = (
   element,
   key,
-  value
+  value,
 ) => {
   if (isOn(key)) {
     // deno-lint-ignore ban-types

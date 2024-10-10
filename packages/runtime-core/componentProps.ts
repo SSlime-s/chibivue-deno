@@ -1,4 +1,5 @@
 import { reactive } from "../reactivity/reactive.ts";
+import { camelize, hasOwn } from "../shared/general.ts";
 import type { ComponentInternalInstance, Data } from "./component.ts";
 
 export type Props = Record<string, PropOptions | null>;
@@ -16,7 +17,7 @@ export type PropType<T> = {
 
 export function initProps(
   instance: ComponentInternalInstance,
-  rawProps: Data | null
+  rawProps: Data | null,
 ) {
   const props: Data = {};
   setFullProps(instance, rawProps, props);
@@ -26,7 +27,7 @@ export function initProps(
 function setFullProps(
   instance: ComponentInternalInstance,
   rawProps: Data | null,
-  props: Data
+  props: Data,
 ) {
   const options = instance.propsOptions;
 
@@ -35,19 +36,22 @@ function setFullProps(
   }
 
   for (const key in rawProps) {
+    const camelKey = camelize(key);
     if (
       options === undefined ||
-      !Object.prototype.hasOwnProperty.call(options, key)
+      !hasOwn(options, camelKey)
     ) {
       continue;
     }
-    props[key] = rawProps[key];
+    props[camelKey] = rawProps[key];
   }
 }
 
 export function updateProps(
   instance: ComponentInternalInstance,
-  rawProps: Data | null
+  rawProps: Data | null,
 ) {
-  Object.assign(instance.props, rawProps);
+  Object.entries(rawProps ?? {}).forEach(([key, value]) => {
+    instance.props[camelize(key)] = value;
+  });
 }
