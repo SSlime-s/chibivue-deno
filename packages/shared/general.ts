@@ -16,3 +16,16 @@ export function camelize<T extends string>(str: T): KebabToCamel<T> {
     (_, c: string | undefined) => (c !== undefined ? c.toUpperCase() : ""),
   ) as KebabToCamel<T>;
 }
+
+export function capitalize<T extends string>(str: T): Capitalize<T> {
+  return str.charAt(0).toUpperCase() + str.slice(1) as Capitalize<T>;
+}
+
+export function toHandlerKey<T extends string>(
+  str: T,
+): T extends "" ? "" : `on${Capitalize<T>}` {
+  return (str === ""
+    ? "" as const
+    : `on${capitalize(str)}` as const) as T extends "" ? ""
+      : `on${Capitalize<T>}`;
+}

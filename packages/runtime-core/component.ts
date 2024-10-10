@@ -1,4 +1,5 @@
 import type { ReactiveEffect } from "../reactivity/effect.ts";
+import { emit } from "./componentEmits.ts";
 import { ComponentOptions } from "./componentOptions.ts";
 import type { Props } from "./componentProps.ts";
 import type { VNode, VNodeChild } from "./vnode.ts";
@@ -16,6 +17,7 @@ export interface ComponentInternalInstance {
   isMounted: boolean;
   propsOptions?: Props;
   props: Data;
+  emit: (event: string, ...args: unknown[]) => void;
 }
 
 export type InternalRenderFunction = {
@@ -40,7 +42,9 @@ export function createComponentInstance(
     isMounted: false,
     propsOptions: type.props as Props | undefined ?? {},
     props: {},
+    emit: null!, // set immediately
   };
+  instance.emit = emit.bind(null, instance);
 
   return instance;
 }

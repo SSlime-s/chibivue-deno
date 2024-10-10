@@ -167,3 +167,65 @@ Deno.test("10_minimum_example/050_component_system2/ケバブケースはコン�
     },
   );
 });
+
+function mountApp4() {
+  const MyComponent = {
+    props: {
+      myCount: {
+        type: Number,
+      },
+    },
+    setup(
+      props: { myCount: number },
+      { emit }: { emit: (message: string, ...args: unknown[]) => void },
+    ) {
+      return () =>
+        h("div", {}, [
+          h("p", {}, [`count: ${props.myCount}`]),
+          h("button", {
+            class: "btn",
+            onClick: () => emit("click:my-increment"),
+          }, [
+            "+1",
+          ]),
+        ]);
+    },
+  };
+
+  const app = createApp({
+    setup: () => {
+      const state = reactive({ count: 0 });
+      const increment = () => {
+        state.count++;
+      };
+
+      return () =>
+        h("div", { id: "my-app" }, [
+          h(MyComponent, {
+            "my-count": state.count,
+            "onClick:my-increment": increment,
+          }, []),
+        ]);
+    },
+  });
+
+  app.mount(`#${HOST_ID}`);
+}
+
+Deno.test("10_minimum_example/050_component_system3", async (t) => {
+  using resource = setup();
+  const { host } = resource;
+
+  mountApp4();
+
+  await t.step("最初", async () => {
+    await assertSnapshot(t, host.innerHTML);
+  });
+
+  await t.step("ボタンをクリック", async () => {
+    const button = document.querySelector<HTMLButtonElement>(".btn");
+    button?.click();
+
+    await assertSnapshot(t, host.innerHTML);
+  });
+});

@@ -151,7 +151,10 @@ export function createRenderer({
     const component = initialVNode.type as Component;
     if (component.setup !== undefined) {
       instance.render = component.setup(
-        instance.props
+        instance.props,
+        {
+          emit: instance.emit,
+        },
       ) as InternalRenderFunction;
     }
 
@@ -161,7 +164,7 @@ export function createRenderer({
   const setupRenderEffect = (
     instance: ComponentInternalInstance,
     initialVNode: VNode,
-    container: RendererElement
+    container: RendererElement,
   ) => {
     const componentUpdateFn = () => {
       if (!instance.isMounted) {
