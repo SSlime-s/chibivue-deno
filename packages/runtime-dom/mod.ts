@@ -20,3 +20,5 @@ export const createApp = ((...args) => {
 
   return app;
 }) satisfies CreateAppFunction<Element>;
+
+export { h } from "../runtime-core/mod.ts";

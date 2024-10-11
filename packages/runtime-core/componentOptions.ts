@@ -6,4 +6,5 @@ export type ComponentOptions = {
     emit: (event: string, ...args: unknown[]) => void;
     // deno-lint-ignore ban-types
   }) => Function;
+  template?: string;
 };

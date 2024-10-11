@@ -5,8 +5,9 @@ import {
   type ComponentInternalInstance,
   createComponentInstance,
   type InternalRenderFunction,
+  setupComponent,
 } from "./component.ts";
-import { initProps, updateProps } from "./componentProps.ts";
+import { updateProps } from "./componentProps.ts";
 import { createVNode, normalizeVNode, VNode } from "./vnode.ts";
 import { Text } from "./vnode.ts";
 
@@ -146,18 +147,7 @@ export function createRenderer({
     const instance: ComponentInternalInstance =
       (initialVNode.component = createComponentInstance(initialVNode));
 
-    initProps(instance, instance.vnode.props);
-
-    const component = initialVNode.type as Component;
-    if (component.setup !== undefined) {
-      instance.render = component.setup(
-        instance.props,
-        {
-          emit: instance.emit,
-        },
-      ) as InternalRenderFunction;
-    }
-
+    setupComponent(instance);
     setupRenderEffect(instance, initialVNode, container);
   };
 
