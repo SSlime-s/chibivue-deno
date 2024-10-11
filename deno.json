@@ -2,8 +2,8 @@
   "tasks": {
     "play:build": "cd examples/playground && deno task build",
     "play:serve": "cd examples/playground && deno task serve",
-    "test:e2e": "deno test -A --shuffle --parallel",
-    "test:e2e:update": "deno test -A --parallel -- --update"
+    "test": "deno test -A --shuffle --parallel",
+    "test:update": "deno test -A --parallel -- --update"
   },
   "imports": {
     "chibivue": "./packages/mod.ts",
