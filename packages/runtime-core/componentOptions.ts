@@ -5,6 +5,6 @@ export type ComponentOptions = {
   setup?: (props: Record<string, unknown>, ctx: {
     emit: (event: string, ...args: unknown[]) => void;
     // deno-lint-ignore ban-types
-  }) => Function;
+  }) => Function | void;
   template?: string;
 };
