@@ -1,26 +1,17 @@
-import { createApp } from "chibivue";
+import { createApp, reactive } from "chibivue";
 
 const app = createApp({
   setup() {
-    queueMicrotask(() => {
-      const button = document.getElementById("btn");
-      if (button === null) {
-        return;
-      }
+    const state = reactive({ message: "Hello, chibivue!" });
+    const changeMessage = () => {
+      state.message += "!";
+    };
 
-      button.addEventListener("click", () => {
-        const h2 = document.getElementById("title");
-        if (h2 === null) {
-          return;
-        }
-
-        h2.textContent += "!";
-      });
-    });
+    return { state, changeMessage };
   },
   template: `
     <div class="container" style="text-align: center">
-      <h2 id="title">Hello, chibivue!</h2>
+      <h2>{{ state.message }}</h2>
       <img
         width="150px"
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png"
@@ -28,7 +19,7 @@ const app = createApp({
       />
       <p><b>chibivue</b> is the minimal Vue.js</p>
 
-      <button id="btn"> click me! </button>
+      <button> click me! </button>
 
       <style>
         .container {

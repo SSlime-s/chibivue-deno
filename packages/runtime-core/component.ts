@@ -1,4 +1,5 @@
 import type { ReactiveEffect } from "../reactivity/effect.ts";
+import { unreachable } from "../shared/unreachable.ts";
 import { emit } from "./componentEmits.ts";
 import { ComponentOptions } from "./componentOptions.ts";
 import { initProps, type Props } from "./componentProps.ts";
@@ -18,10 +19,11 @@ export interface ComponentInternalInstance {
   propsOptions?: Props;
   props: Data;
   emit: (event: string, ...args: unknown[]) => void;
+  setupState: Data;
 }
 
 export type InternalRenderFunction = {
-  (): VNodeChild;
+  (ctx: Data): VNodeChild;
 };
 
 export type Data = Record<string, unknown>;
@@ -43,6 +45,7 @@ export function createComponentInstance(
     propsOptions: type.props as Props | undefined ?? {},
     props: {},
     emit: null!, // set immediately
+    setupState: {},
   };
   instance.emit = emit.bind(null, instance);
 
@@ -54,12 +57,25 @@ export function setupComponent(instance: ComponentInternalInstance) {
 
   const component = instance.type as Component;
   if (component.setup !== undefined) {
-    instance.render = component.setup(
+    const setupResult = component.setup(
       instance.props,
       {
         emit: instance.emit,
       },
-    ) as InternalRenderFunction;
+    ) as InternalRenderFunction | Record<string, unknown> | void;
+
+    switch (typeof setupResult) {
+      case "function":
+        instance.render = setupResult;
+        break;
+      case "object":
+        instance.setupState = setupResult;
+        break;
+      case "undefined":
+        break;
+      default:
+        unreachable(setupResult);
+    }
   }
 
   if (compile !== undefined && component.render === undefined) {

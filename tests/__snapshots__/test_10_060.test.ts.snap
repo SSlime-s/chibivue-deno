@@ -3,3 +3,5 @@ export const snapshot = {};
 snapshot[`template もコンパイルできる 1`] = `'<b class="hello" style="color: red;">Hello World!!</b>'`;
 
 snapshot[`template もコンパイルできる 2`] = `'<p class="hello" label="Hello, ChibiVue!">Hello, ChibiVue!</p>'`;
+
+snapshot[`変数を挿入できる 1`] = `'<p class="hello">Hello, ChibiVue!</p>'`;

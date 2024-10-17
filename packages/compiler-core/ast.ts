@@ -1,17 +1,18 @@
-export const NodeTypes  = {
+export const NodeTypes = {
   ELEMENT: "element",
   TEXT: "text",
+  INTERPOLATION: "interpolation",
   ATTRIBUTE: "attribute",
 } as const;
-export type NodeTypes  = typeof NodeTypes [keyof typeof NodeTypes];
+export type NodeTypes = typeof NodeTypes[keyof typeof NodeTypes];
 
 export interface Node {
-  type: NodeTypes ;
+  type: NodeTypes;
   loc: SourceLocation;
 }
 
 export interface ElementNode extends Node {
-  type: typeof NodeTypes .ELEMENT;
+  type: typeof NodeTypes.ELEMENT;
   /** @example div, a */
   tag: string;
   props: AttributeNode[];
@@ -21,15 +22,20 @@ export interface ElementNode extends Node {
 }
 
 export interface AttributeNode extends Node {
-  type: typeof NodeTypes .ATTRIBUTE;
+  type: typeof NodeTypes.ATTRIBUTE;
   name: string;
   value: TextNode | undefined;
 }
 
-export type TemplateChildNode = ElementNode | TextNode;
+export type TemplateChildNode = ElementNode | TextNode | InterpolationNode;
 
 export interface TextNode extends Node {
-  type: typeof NodeTypes .TEXT;
+  type: typeof NodeTypes.TEXT;
+  content: string;
+}
+
+export interface InterpolationNode extends Node {
+  type: typeof NodeTypes.INTERPOLATION;
   content: string;
 }
 

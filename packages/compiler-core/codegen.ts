@@ -1,5 +1,6 @@
 import {
   type ElementNode,
+  type InterpolationNode,
   NodeTypes,
   type TemplateChildNode,
   type TextNode,
@@ -9,9 +10,11 @@ export function generate({ children }: {
   children: TemplateChildNode[];
 }): string {
   return `
-return () => {
-  const { h } = ChibiVue;
-  return ${genNode(children[0])};
+return (_ctx) => {
+  with (_ctx) {
+    const { h } = ChibiVue;
+    return ${genNode(children[0])};
+  }
 };`;
 }
 
@@ -21,6 +24,8 @@ function genNode(node: TemplateChildNode): string {
       return genElement(node);
     case NodeTypes.TEXT:
       return genText(node);
+    case NodeTypes.INTERPOLATION:
+      return getInterpolation(node);
     default:
       return "";
   }
@@ -36,4 +41,8 @@ function genElement(element: ElementNode): string {
 
 function genText(text: TextNode): string {
   return `\`${text.content}\``;
+}
+
+function getInterpolation(node: InterpolationNode): string {
+  return `${node.content}`;
 }
