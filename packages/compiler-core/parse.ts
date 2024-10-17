@@ -1,4 +1,4 @@
-import type { InterpolationNode, Position } from "./ast.ts";
+import type { DirectiveNode, InterpolationNode, Position } from "./ast.ts";
 import type { AttributeNode } from "./ast.ts";
 import type { SourceLocation } from "./ast.ts";
 import type { ElementNode, TemplateChildNode, TextNode } from "./ast.ts";
@@ -238,7 +238,7 @@ function parseTag(context: ParserContext, type: TagType): ElementNode {
 function parseAttributes(
   context: ParserContext,
   type: TagType,
-): AttributeNode[] {
+): (AttributeNode | DirectiveNode)[] {
   const props = [];
   const attributeNames = new Set<string>();
 
@@ -269,7 +269,7 @@ type AttributeValue =
 function parseAttribute(
   context: ParserContext,
   nameSet: Set<string>,
-): AttributeNode {
+): AttributeNode | DirectiveNode {
   const start = getCursor(context);
   const match = /^[^\t\r\n\f />][^\t\r\n\f />=]*/.exec(context.source)!;
   const name = match[0];
@@ -290,6 +290,23 @@ function parseAttribute(
   }
 
   const loc = getSelection(context, start);
+  if (/^(v-[A-Za-z0-9-]|@)/.test(name)) {
+    const match =
+      /(?:^v-(?<name>[a-z0-9-]+))?(?:(?::|^\.|^@|^#)(?<arg>\[[^\]]+\]|[^\.]+))?(.+)?$/
+        .exec(name)!;
+
+    const dirName = match.groups?.name ?? (startsWith(name, "@") ? "on" : "");
+
+    const arg = match.groups?.arg ?? "";
+
+    return {
+      type: NodeTypes.DIRECTIVE,
+      name: dirName,
+      arg,
+      exp: value?.content ?? "",
+      loc,
+    };
+  }
 
   return {
     type: NodeTypes.ATTRIBUTE,

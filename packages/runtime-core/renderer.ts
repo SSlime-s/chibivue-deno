@@ -4,7 +4,6 @@ import {
   Component,
   type ComponentInternalInstance,
   createComponentInstance,
-  type InternalRenderFunction,
   setupComponent,
 } from "./component.ts";
 import { updateProps } from "./componentProps.ts";

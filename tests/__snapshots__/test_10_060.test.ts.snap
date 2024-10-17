@@ -5,3 +5,11 @@ snapshot[`template もコンパイルできる 1`] = `'<b class="hello" style="c
 snapshot[`template もコンパイルできる 2`] = `'<p class="hello" label="Hello, ChibiVue!">Hello, ChibiVue!</p>'`;
 
 snapshot[`変数を挿入できる 1`] = `'<p class="hello">Hello, ChibiVue!</p>'`;
+
+snapshot[`イベントリスナを設定できる 1`] = `"<button>0</button>"`;
+
+snapshot[`イベントリスナを設定できる 2`] = `"<button>1</button>"`;
+
+snapshot[`イベントリスナの登録は v-on でもできる 1`] = `"<button>0</button>"`;
+
+snapshot[`イベントリスナの登録は v-on でもできる 2`] = `"<button>1</button>"`;

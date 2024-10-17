@@ -1,4 +1,8 @@
+import { toHandlerKey } from "../shared/general.ts";
+import { unreachable } from "../shared/unreachable.ts";
 import {
+  type AttributeNode,
+  type DirectiveNode,
   type ElementNode,
   type InterpolationNode,
   NodeTypes,
@@ -34,9 +38,25 @@ function genNode(node: TemplateChildNode): string {
 function genElement(element: ElementNode): string {
   return `h("${element.tag}", {${
     element.props
-      .map(({ name, value }) => `"${name}": "${value?.content}"`)
+      .map(genProp)
       .join(",")
   }}, [${element.children.map(genNode).join(",")}])`;
+}
+
+function genProp(prop: AttributeNode | DirectiveNode): string {
+  switch (prop.type) {
+    case NodeTypes.ATTRIBUTE:
+      return `${prop.name}: "${prop.value?.content}"`;
+    case NodeTypes.DIRECTIVE:
+      switch (prop.name) {
+        case "on":
+          return `${toHandlerKey(prop.arg)}: ${prop.exp}`;
+        default:
+          throw new Error(`Unimplemented directive name: ${prop.name}`);
+      }
+    default:
+      unreachable(prop);
+  }
 }
 
 function genText(text: TextNode): string {

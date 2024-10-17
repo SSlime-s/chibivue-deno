@@ -3,6 +3,7 @@ export const NodeTypes = {
   TEXT: "text",
   INTERPOLATION: "interpolation",
   ATTRIBUTE: "attribute",
+  DIRECTIVE: "directive",
 } as const;
 export type NodeTypes = typeof NodeTypes[keyof typeof NodeTypes];
 
@@ -15,7 +16,7 @@ export interface ElementNode extends Node {
   type: typeof NodeTypes.ELEMENT;
   /** @example div, a */
   tag: string;
-  props: AttributeNode[];
+  props: (AttributeNode | DirectiveNode)[];
   children: TemplateChildNode[];
   /** @example <img /> -> true */
   isSelfClosing: boolean;
@@ -25,6 +26,14 @@ export interface AttributeNode extends Node {
   type: typeof NodeTypes.ATTRIBUTE;
   name: string;
   value: TextNode | undefined;
+}
+
+/** v-name:arg="exp" として解釈する */
+export interface DirectiveNode extends Node {
+  type: typeof NodeTypes.DIRECTIVE;
+  name: string;
+  arg: string;
+  exp: string;
 }
 
 export type TemplateChildNode = ElementNode | TextNode | InterpolationNode;
