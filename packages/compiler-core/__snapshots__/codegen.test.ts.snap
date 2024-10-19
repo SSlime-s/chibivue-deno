@@ -2,7 +2,7 @@ export const snapshot = {};
 
 snapshot[`generate できる 1`] = `
 '
-return (_ctx) => {
+return function render(_ctx) {
   with (_ctx) {
     const { h } = ChibiVue;
     return h("div", {id: "app"}, [\`Hello, ChibiVue!\`]);
