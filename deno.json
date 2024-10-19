@@ -6,10 +6,12 @@
     "test:update": "deno test -A --parallel -- --update"
   },
   "imports": {
-    "chibivue": "./packages/mod.ts",
+    "@babel/parser": "npm:@babel/parser@^7.25.8",
     "@std/assert": "jsr:@std/assert@1",
     "@std/testing": "jsr:@std/testing@^1.0.3",
-    "global-jsdom": "npm:global-jsdom@^25.0.0"
+    "chibivue": "./packages/mod.ts",
+    "global-jsdom": "npm:global-jsdom@^25.0.0",
+    "magic-string": "npm:magic-string@^0.30.12"
   },
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]

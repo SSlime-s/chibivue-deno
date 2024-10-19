@@ -84,6 +84,10 @@ export function setupComponent(instance: ComponentInternalInstance) {
       instance.render = compile(template);
     }
   }
+
+  if (component.render !== undefined) {
+    instance.render = component.render as InternalRenderFunction;
+  }
 }
 
 type CompileFunction = (template: string) => InternalRenderFunction;

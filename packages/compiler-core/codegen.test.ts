@@ -29,5 +29,8 @@ Deno.test("generate できる", async (t) => {
     loc: dummyLoc,
     isSelfClosing: false,
   };
-  await assertSnapshot(t, generate({ children: [parsed] }));
+  await assertSnapshot(
+    t,
+    generate({ children: [parsed] }, { isBrowser: true }),
+  );
 });
