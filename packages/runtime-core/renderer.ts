@@ -1,13 +1,13 @@
 import { unreachable } from "../shared/unreachable.ts";
 import { ReactiveEffect } from "../reactivity/effect.ts";
 import {
-  Component,
+  type Component,
   type ComponentInternalInstance,
   createComponentInstance,
   setupComponent,
 } from "./component.ts";
 import { updateProps } from "./componentProps.ts";
-import { createVNode, normalizeVNode, VNode } from "./vnode.ts";
+import { createVNode, normalizeVNode, type VNode } from "./vnode.ts";
 import { Text } from "./vnode.ts";
 
 export interface RendererOptions<
@@ -41,7 +41,7 @@ export function createRenderer({
   setElementText: hostSetText,
   insert: hostInsert,
   parentNode: hostParentNode,
-}: RendererOptions) {
+}: RendererOptions): { render: RootRenderFunction<RendererElement> } {
   const patch = (n1: VNode | null, n2: VNode, container: RendererElement) => {
     if (n2.type === Text) {
       processText(n1, n2, container);

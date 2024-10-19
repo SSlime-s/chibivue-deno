@@ -1,6 +1,6 @@
 import {
   createAppAPI,
-  CreateAppFunction,
+  type CreateAppFunction,
 } from "../runtime-core/apiCreateApp.ts";
 import { createRenderer } from "../runtime-core/renderer.ts";
 import { nodeOps } from "./nodeOps.ts";

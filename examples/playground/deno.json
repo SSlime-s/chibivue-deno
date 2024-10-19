@@ -4,13 +4,7 @@
     "build": "deno run -A build.ts"
   },
   "imports": {
-    "@babel/parser": "npm:@babel/parser@^7.25.8",
-    "chibivue": "../../packages/mod.ts",
-    "magic-string": "npm:magic-string@^0.30.12",
     "vite": "npm:vite@^5.4.8"
   },
-  "exclude": ["dist/"],
-  "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
-  }
+  "exclude": ["dist/"]
 }

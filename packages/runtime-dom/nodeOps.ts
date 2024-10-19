@@ -1,4 +1,4 @@
-import { RendererOptions } from "../runtime-core/renderer.ts";
+import type { RendererOptions } from "../runtime-core/renderer.ts";
 
 export const nodeOps: Omit<RendererOptions, "patchProp"> = {
   createElement: (tagName) => {

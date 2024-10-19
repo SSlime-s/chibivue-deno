@@ -1,5 +1,5 @@
 // @deno-types="https://deno.land/x/esbuild@v0.19.11/wasm.d.ts"
-import { type Plugin } from "https://deno.land/x/esbuild@v0.19.11/wasm.js";
+import type { Plugin } from "https://deno.land/x/esbuild@v0.19.11/wasm.js";
 import { parse } from "../../compiler-sfc/mod.ts";
 import { basename } from "node:path";
 import { compile } from "../../compiler-dom/mod.ts";

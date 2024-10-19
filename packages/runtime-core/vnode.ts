@@ -1,5 +1,5 @@
 import type { ComponentInternalInstance } from "./component.ts";
-import { RendererNode } from "./renderer.ts";
+import type { RendererNode } from "./renderer.ts";
 
 export const Text = Symbol("Text");
 

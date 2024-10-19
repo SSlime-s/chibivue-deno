@@ -1,4 +1,4 @@
-import { RendererOptions } from "../runtime-core/renderer.ts";
+import type { RendererOptions } from "../runtime-core/renderer.ts";
 import { patchAttr } from "./modules/attrs.ts";
 import { patchEvent } from "./modules/events.ts";
 

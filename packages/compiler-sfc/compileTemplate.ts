@@ -1,4 +1,4 @@
-import { TemplateChildNode } from "../compiler-core/mod.ts";
+import type { TemplateChildNode } from "../compiler-core/mod.ts";
 
 export interface TemplateCompiler {
   compile(template: string): string;

@@ -1,7 +1,7 @@
 import type { ReactiveEffect } from "../reactivity/effect.ts";
 import { unreachable } from "../shared/unreachable.ts";
 import { emit } from "./componentEmits.ts";
-import { ComponentOptions } from "./componentOptions.ts";
+import type { ComponentOptions } from "./componentOptions.ts";
 import { initProps, type Props } from "./componentProps.ts";
 import type { VNode, VNodeChild } from "./vnode.ts";
 

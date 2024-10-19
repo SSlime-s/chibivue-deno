@@ -1,4 +1,4 @@
-import { SourceLocation } from "../compiler-core/mod.ts";
+import type { SourceLocation } from "../compiler-core/mod.ts";
 import type { TemplateCompiler } from "./compileTemplate.ts";
 import * as CompilerDOM from "../compiler-dom/mod.ts";
 import { type ElementNode, NodeTypes } from "../compiler-core/ast.ts";

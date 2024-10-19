@@ -1,4 +1,4 @@
-import { createDep, Dep } from "./dep.ts";
+import { createDep, type Dep } from "./dep.ts";
 
 type KeyToDepMap = Map<unknown, Dep>;
 const targetMap = new WeakMap<WeakKey, KeyToDepMap>();
@@ -8,7 +8,7 @@ export let activeEffect: ReactiveEffect | undefined;
 export class ReactiveEffect<T = unknown> {
   constructor(public fn: () => T) {}
 
-  run() {
+  run(): T {
     const before: ReactiveEffect | undefined = activeEffect;
     activeEffect = this;
     const res = this.fn();

@@ -1,4 +1,4 @@
-import { createApp } from "chibivue";
+import { createApp } from "@my/chibivue";
 import App from "./App.vue";
 
 const app = createApp(App);

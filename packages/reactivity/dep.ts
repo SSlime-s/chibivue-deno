@@ -1,4 +1,4 @@
-import { type ReactiveEffect } from "./effect.ts";
+import type { ReactiveEffect } from "./effect.ts";
 
 export type Dep = Set<ReactiveEffect>;
 

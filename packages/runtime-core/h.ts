@@ -1,4 +1,4 @@
-import { createVNode, VNode, VNodeProps } from "./vnode.ts";
+import { createVNode, type VNode, type VNodeProps } from "./vnode.ts";
 
 export function h(
   type: string | object,

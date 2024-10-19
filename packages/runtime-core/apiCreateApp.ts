@@ -1,5 +1,5 @@
-import { Component } from "./component.ts";
-import { RootRenderFunction } from "./renderer.ts";
+import type { Component } from "./component.ts";
+import type { RootRenderFunction } from "./renderer.ts";
 
 // deno-lint-ignore no-explicit-any
 export interface App<HostElement = any> {
