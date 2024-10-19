@@ -15,7 +15,7 @@ export function generate({ children }: {
   children: TemplateChildNode[];
 }, option: Required<CompilerOptions>): string {
   return `
-${option.isBrowser ? "return" : ""}function render(_ctx) {
+${option.isBrowser ? "return " : ""}function render(_ctx) {
   ${option.isBrowser ? "with (_ctx) {" : ""}
     const { h } = ChibiVue;
     return ${genNode(children[0], option)};
